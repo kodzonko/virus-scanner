@@ -1,24 +1,24 @@
+from .FileHandler import FileHandler
+
+
 class APIHandler:
+    __API_key = None
 
-    def __init__(self):
-        self.API_key = None
-
-    def get_API_from_file(self, path: str):
+    @classmethod
+    def get_API_from_file(cls):
+        """
+        Parses API stored in non-encprypted file on your computer and stores it in the class.
+        :return:
+        None
+        """
+        file = FileHandler.ask_for_path()
         with open('api_key.txt', 'r') as file:
-            self.API_key = file.read()
+            cls.__API_key = file.read()
 
+    @classmethod
     def get_API_from_user(self):
         api = input('Paste your VirusTotal API key: ')
-        self.API_key = api.strip('\n\t,.')
-
-        # if platform.system() == 'Windows':
-        #
-        # elif platform.system() == 'Linux':
-        #
-        # elif platform.system() == 'Darwin':
-        #
-        # else:
-        #
+        self.__API_key = api.strip('\n\t,. ')
         store_API = input('Do you want to store your API key in file for further scans [yes|no]: ')
         if store_API.lower() == 'yes' or store_API.lower() == 'y':
             with open('api_key.txt', 'a') as file:
@@ -29,3 +29,7 @@ class APIHandler:
                     self.get_API_from_user(api)
                 else:
                     file.write(api)
+
+    @classmethod
+    def get_API_key(cls):
+        return cls.__API_key
