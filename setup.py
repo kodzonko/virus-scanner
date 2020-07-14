@@ -1,15 +1,8 @@
-# !/usr/bin/python
+# !/usr/bin/python3
 
 import pprint
 
-import requests
 
-scan_url = 'https://www.virustotal.com/vtapi/v2/file/scan'
-scan_params = {'apikey': f'{api - key}'}
-
-# test_file = input("Proszę podać ścieżkę do pliku: ")
-
-test_file = "kod_z_zajec.py"
 files = {'file': (test_file, open(test_file, 'rb'))}
 scan_request = requests.post(scan_url, files=files, params=scan_params)
 

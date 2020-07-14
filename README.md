@@ -8,7 +8,9 @@ Quickly scan files (including archives?) downloaded from the Internet without op
 1. Open command prompt (Windows) or Terminal (macOS and Linux)
 2. Type in path to the script and path to the file(s) you want to scan, for example:
 > "C:\Users\janek\Downloads\main.py" "C:\Users\janek\Desktop\suspicious file.exe", "D:\Games\Half Life 3\crack.zip"
+
 > main.py ".\Desktop\suspicious file.exe", ".\Half Life 3\crack.zip" -- if you don't want to type full path to Commandline Virus Scanner add it to your system PATH (read below how). You can also provide relative paths instead of absolute paths.
+
 > main.py <drag and drop file you want to scan here>
 
 ## Prerequisites 
