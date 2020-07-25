@@ -1,22 +1,18 @@
-from tkinter import Tk
-from tkinter.filedialog import askopenfilename
-
-from .APIHandler import APIHandler
+from tkinter import Tk, filedialog
 
 
 class FileHandler:
-    files = []
 
     @classmethod
     def ask_for_path(cls):
         """
-        Opens minimal GUI to navigate and select a file of choice
+        Opens minimal GUI to navigate and select file(s) of choice
         :return:
-        Path to the chosen file
+        Path (str) to the chosen file(s)
         """
-        Tk().withdraw()
-        file = askopenfilename()  # show an "Open" dialog box and return the path to the selected file
-        cls.files.append(file)
+        file_picker_window = Tk().withdraw()  # we don't want a full GUI, so keep the root window from appearing
+        file_picker_window.lift()
+        file_picker_window.focus_force()
 
-    scan_url = 'https://www.virustotal.com/vtapi/v2/file/scan'
-    scan_params = {'apikey': f'{APIHandler.API_key}'}
+        file_picker_window.file_name = filedialog.askopenfilenames(initialdir="C:", title="Select file(s)")
+        return [file_picker_window]
