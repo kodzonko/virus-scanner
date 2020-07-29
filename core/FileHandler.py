@@ -1,9 +1,9 @@
 from tkinter import Tk, filedialog
+import os
 
 
 class FileHandler:
-    files_to_scan = []
-    api_file = None
+    files_to_scan = {}
 
     @classmethod
     def select_files_to_scan(cls):
@@ -12,12 +12,11 @@ class FileHandler:
         :return:
         None
         """
-        selected_files = Tk().withdraw()  # we don't want a full GUI, so keep the root window from appearing
-        selected_files.lift()
-        selected_files.focus_force()
-
-        selected_files.file_name = filedialog.askopenfilenames(initialdir="C:", title="Select file(s) to scan")
-        cls.files_to_scan.extend(selected_files)
+        root = Tk()
+        root.withdraw()
+        selected_files = filedialog.askopenfilenames(parent=root, initialdir="C:", title='Select file(s) to scan')
+        for file in selected_files:
+            cls.files_to_scan.update({f'{os.path.basename(file)}': open(file, 'rb')})
 
     @classmethod
     def select_API_file(cls):
@@ -26,16 +25,13 @@ class FileHandler:
         :return:
         None
         """
-        selected_file = Tk().withdraw()  # we don't want a full GUI, so keep the root window from appearing
-        selected_file.lift()
-        selected_file.focus_force()
-
-        selected_file.file_name = filedialog.askopenfilename(initialdir="C:",
-                                                             title="Select a file containing your API key")
-        cls.api_file = selected_file
+        root = Tk()
+        root.withdraw()
+        selected_file = filedialog.askopenfilename(parent=root, initialdir="C:", title="Select a file containing your API key")
+        return selected_file
 
     @classmethod
-    def save_file(cls, api: str):
+    def save_API_file(cls, api: str):
         """
         Opens minimal GUI to navigate to a directory of choice to save a file with your API key or scan report.
 
@@ -45,7 +41,6 @@ class FileHandler:
         :return:
         None
         """
-
         file = filedialog.asksaveasfilename(mode='w', defaultextension=".txt")
         if file is not None:  # asksaveasfile returns `None` if dialog closed with "cancel".
             with open(file, 'w') as file:

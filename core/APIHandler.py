@@ -1,7 +1,8 @@
-from FileHandler import FileHandler
+from core.FileHandler import FileHandler
 
 
 class APIHandler:
+
     __API_key = None
 
     @classmethod
@@ -11,19 +12,15 @@ class APIHandler:
         :return:
         None
         """
-        file = FileHandler.ask_for_path()
-        with open(FileHandler.api_file, 'r') as file:
-            cls.__API_key = file.read()
+        with open(FileHandler.select_API_file(), 'r') as file:
+            cls.__API_key = file.read().strip('\n')
 
     @classmethod
     def get_API_from_user(cls):
         api = input('Paste your VirusTotal API key: ')
-        cls.__API_key = api.strip('\n\t,. ')
-
-    @classmethod
-    def set_API_key(cls):
-        return cls.__API_key
+        cls.__API_key = api.strip('\n\t,."\' ')
 
     @classmethod
     def get_API_key(cls):
         return cls.__API_key
+
