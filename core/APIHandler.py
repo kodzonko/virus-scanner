@@ -23,4 +23,3 @@ class APIHandler:
     @classmethod
     def get_API_key(cls):
         return cls.__API_key
-

@@ -1,9 +1,8 @@
 from tkinter import Tk, filedialog
-import os
 
 
 class FileHandler:
-    files_to_scan = {}
+    files_to_scan = []
 
     @classmethod
     def select_files_to_scan(cls):
@@ -16,7 +15,7 @@ class FileHandler:
         root.withdraw()
         selected_files = filedialog.askopenfilenames(parent=root, initialdir="C:", title='Select file(s) to scan')
         for file in selected_files:
-            cls.files_to_scan.update({f'{os.path.basename(file)}': open(file, 'rb')})
+            cls.files_to_scan.append(file)
 
     @classmethod
     def select_API_file(cls):

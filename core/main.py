@@ -5,11 +5,12 @@ from core.RequestHandler import RequestHandler
 from core.ReportMaker import ReportMaker
 from core.APIHandler import APIHandler
 
-# APIHandler.get_API_from_file()
-# FileHandler.select_files_to_scan()
+APIHandler.get_API_from_file()
+FileHandler.select_files_to_scan()
 
-# RequestHandler.scan_file()
-# # ReportMaker.print_to_console()
+RequestHandler.scan_file()
+
+# ReportMaker.print_to_console()
 #
 #
 

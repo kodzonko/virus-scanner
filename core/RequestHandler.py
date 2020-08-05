@@ -1,3 +1,5 @@
+import json
+
 import requests
 
 from core.FileHandler import FileHandler
@@ -10,15 +12,25 @@ class RequestHandler:
         """
         Function requesting scans and reports for each file in FileHandler.files_to_scan (list)
         :return:
-        json file with reports on each files chosen for scanning
+        json file with scan ID of each file chosen to scan
         """
-        scan_url = 'https://www.virustotal.com/vtapi/v2/file/scan'
-        report_url = 'https://www.virustotal.com/vtapi/v2/file/report'
-        scan_params = {'apikey': APIHandler.get_API_key()}
-        scan_response = requests.post(scan_url, files=FileHandler.files_to_scan, params=scan_params)
+        url = 'https://www.virustotal.com/vtapi/v2/file/scan'
+        params = {'apikey': APIHandler.get_API_key()}
+        scan_ids = []
 
-        scan_id = scan_response.json()['md5']
-        report_params = cls.scan_params.update({'resource': scan_id, 'allinfo': True})
-        report_response = requests.get(report_url, params=report_params)
+        # As far as I know you cannot post request with multiple files. It requires dictionary with key value = 'file'
+        # (which has to be unique obviously) - so it limits dictionary size to 1.
+        for file in FileHandler.files_to_scan:
+            tmp_file = {'file': (file, open(file), 'rb')}
+            scan_response = requests.post(url, files=tmp_file, params=params)
+            scan_ids.append(scan_response.json()['md5'])
+        return scan_ids
 
-        return report_response.json()
+    @classmethod
+    def get_report(cls):
+        reports = []
+        url = 'https://www.virustotal.com/vtapi/v2/file/report'
+        for scan_id in cls.scan_file():
+            params = {'apikey': APIHandler.get_API_key(), 'resource': scan_id, 'allinfo': True}
+            reports.append(requests.get(url, params=params))
+        return reports
