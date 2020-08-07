@@ -10,21 +10,6 @@ FileHandler.select_files_to_scan()
 
 RequestHandler.scan_file()
 
-# ReportMaker.print_to_console()
-#
-#
-
-
-
-
-
-
-
-
-
-
-
-
 # import tkinter as tk
 #
 # from .FileHandler import FileHandler
@@ -59,4 +44,3 @@ RequestHandler.scan_file()
 #             cls.get_API_from_user(api)
 #         else:
 #             file.write(api)
-
