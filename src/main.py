@@ -1,14 +1,20 @@
 # !/usr/bin/python3
 
-from core.FileHandler import FileHandler
-from core.RequestHandler import RequestHandler
-from core.ReportMaker import ReportMaker
-from core.APIHandler import APIHandler
+from src.FileHandler import FileHandler
+from src.RequestHandler import RequestHandler
+from src.ReportMaker import ReportMaker
+from src.APIHandler import APIHandler
 
 APIHandler.get_API_from_file()
 FileHandler.select_files_to_scan()
-
 RequestHandler.scan_file()
+RequestHandler.get_report()
+# print(RequestHandler.scan_ids)
+# print(RequestHandler.reports)
+# ReportMaker.print_to_console()
+# ReportMaker.write_to_file()
+
+
 
 # import tkinter as tk
 #

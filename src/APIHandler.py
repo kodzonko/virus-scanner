@@ -1,8 +1,7 @@
-from core.FileHandler import FileHandler
+from src.FileHandler import FileHandler
 
 
 class APIHandler:
-
     __API_key = None
 
     @classmethod
@@ -23,3 +22,7 @@ class APIHandler:
     @classmethod
     def get_API_key(cls):
         return cls.__API_key
+
+    @classmethod
+    def save_API_key(cls):
+        FileHandler.save_file(cls.__API_key)
