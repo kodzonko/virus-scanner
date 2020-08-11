@@ -3,15 +3,15 @@
 from src.FileHandler import FileHandler
 from src.RequestHandler import RequestHandler
 from src.ReportMaker import ReportMaker
-from src.APIHandler import APIHandler
+from src.ApiHandler import ApiHandler
 
-APIHandler.get_API_from_file()
+ApiHandler.get_API_from_file()
 FileHandler.select_files_to_scan()
-RequestHandler.scan_file()
-RequestHandler.get_report()
+RequestHandler.scan_files()
+RequestHandler.get_reports()
 # print(RequestHandler.scan_ids)
 # print(RequestHandler.reports)
-# ReportMaker.print_to_console()
+ReportMaker.print_to_console()
 # ReportMaker.write_to_file()
 
 

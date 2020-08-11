@@ -1,7 +1,9 @@
+import time
+
 import requests
 
 from src.FileHandler import FileHandler
-from src.APIHandler import APIHandler
+from src.ApiHandler import ApiHandler
 
 
 class RequestHandler:
@@ -9,27 +11,63 @@ class RequestHandler:
     reports = []
 
     @classmethod
-    def scan_file(cls):
+    def scan_files(cls):
         """
         Function requesting scans and reports for each file in FileHandler.files_to_scan (list)
         :return:
         json file with scan ID of each file chosen to scan
         """
-        url = 'https://www.virustotal.com/vtapi/v2/file/scan'
-        params = {'apikey': APIHandler.get_API_key()}
-
         # As far as I know you cannot post request with multiple files. It requires dictionary with key value = 'file'
         # (which has to be unique obviously) - so it limits dictionary size to 1.
+
+        url = 'https://www.virustotal.com/vtapi/v2/file/scan'
+        params = {'apikey': ApiHandler.get_API_key()}
+
+        def scan_request(file: str):
+            file_request = {'file': (file, open(file), 'rb')}
+            status_code = -1
+            while status_code != 200:
+                file_response = requests.post(url, files=file_request, params=params)
+                if file_response.status_code == 200:
+                    return file_response
+                elif file_response.status_code == 204:
+                    print("204 waiting 30")
+                    time.sleep(30)
+                else:
+                    print(f"other error: {file_response.status_code}")
+
         for file in FileHandler.files_to_scan:
-            tmp_file = {'file': (file, open(file), 'rb')}
-            scan_response = requests.post(url, files=tmp_file, params=params)
-            cls.scan_ids.append(scan_response.json()['md5'])
+            md5 = scan_request(file).json()['md5']
+            cls.scan_ids.append(md5)
 
     @classmethod
-    def get_report(cls):
+    def get_reports(cls):
         url = 'https://www.virustotal.com/vtapi/v2/file/report'
-        params = {'apikey': APIHandler.get_API_key()}
-        for scan_id in cls.scan_ids:
+        params = {'apikey': ApiHandler.get_API_key()}
+
+        def report_request(scan_id: str):
             params.update({'resource': scan_id})
-            report_response = requests.get(url, params=params).json()
-            cls.reports.append(report_response)
+            status_code = -1
+            while status_code != 200:
+                report_response = requests.get(url, params=params)
+                status_code = report_response.status_code
+                if report_response.status_code == 200:
+                    print("success")
+                    return report_response
+                elif report_response.status_code == 204:
+                    print("204 waiting 30")
+                    time.sleep(30)
+                else:
+                    print(f"other error: {report_response.status_code}")
+
+        for scan_id in cls.scan_ids:
+            report_dict = report_request(scan_id).json()
+            cls.scan_ids.append(report_dict)
+
+
+    @classmethod
+    def project_time(cls):
+        if len(FileHandler.files_to_scan) <= 2:
+            return 0
+        else:
+            return len(FileHandler.files_to_scan) * 30
