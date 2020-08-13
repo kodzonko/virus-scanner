@@ -2,8 +2,8 @@ import time
 
 import requests
 
-from src.FileHandler import FileHandler
 from src.ApiHandler import ApiHandler
+from src.FileHandler import FileHandler
 
 
 class RequestHandler:
@@ -28,6 +28,7 @@ class RequestHandler:
             status_code = -1
             while status_code != 200:
                 file_response = requests.post(url, files=file_request, params=params)
+                status_code = file_response.status_code
                 if file_response.status_code == 200:
                     return file_response
                 elif file_response.status_code == 204:
@@ -51,6 +52,7 @@ class RequestHandler:
             while status_code != 200:
                 report_response = requests.get(url, params=params)
                 status_code = report_response.status_code
+                print(f'status_code {status_code}')
                 if report_response.status_code == 200:
                     print("success")
                     return report_response
@@ -62,8 +64,7 @@ class RequestHandler:
 
         for scan_id in cls.scan_ids:
             report_dict = report_request(scan_id).json()
-            cls.scan_ids.append(report_dict)
-
+            cls.reports.append(report_dict)
 
     @classmethod
     def project_time(cls):
