@@ -7,8 +7,16 @@ from src.FileHandler import FileHandler
 class ReportMaker:
     @classmethod
     def print_to_console(cls):
+        output = f""
         for report in RequestHandler.reports:
-            pprint.pprint(report)
+            for engine in report.values():
+                print(f"report values {engine}")
+                for key, value in engine.items():
+                    output += key + ": " + str(value['detected'])
+                    if value['detected'] == 'true':
+                        output += ": " + value['result']
+                    output += "\n"
+        print(output)
 
     @classmethod
     def write_to_file(cls):
