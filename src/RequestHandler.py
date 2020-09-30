@@ -1,9 +1,21 @@
+import os
 import time
-
 import requests
 
 from src.ApiHandler import ApiHandler
 from src.FileHandler import FileHandler
+
+
+def api_timeout(func, wait_code: int):
+    def inner(*args, **kwargs):
+        while True:
+            func()
+            if func.status_code == wait_code:
+                time.sleep(30)
+                print("sleeping 30")
+            else:
+                return func(*args, **kwargs)
+    return inner
 
 
 class RequestHandler:
@@ -20,14 +32,15 @@ class RequestHandler:
         # As far as I know you cannot post request with multiple files. It requires dictionary with key value = 'file'
         # (which has to be unique obviously) - so it limits dictionary size to 1.
 
-        url = 'https://www.virustotal.com/vtapi/v2/file/scan'
-        params = {'apikey': ApiHandler.get_API_key()}
+        small_file_url = 'https://www.virustotal.com/vtapi/v2/file/scan'
+        big_file_url = 'https://www.virustotal.com/api/v3/files/upload_url'
+        params = {'x-apikey': ApiHandler.get_API_key()}
 
-        def scan_request(file: str):
+        def scan_small_file(file: str):
             file_request = {'file': (file, open(file), 'rb')}
             status_code = -1
             while status_code != 200:
-                file_response = requests.post(url, files=file_request, params=params)
+                file_response = requests.post(small_file_url, files=file_request, headers=params)
                 status_code = file_response.status_code
                 if file_response.status_code == 200:
                     return file_response
@@ -37,8 +50,19 @@ class RequestHandler:
                 else:
                     print(f"other error: {file_response.status_code}")
 
+        def scan_big_file(file: str):
+            url_request = requests.get(big_file_url, params=params).json()['upload_url']
+            file_request = {'file': (file, open(file), 'rb')}
+            status_code = -1
+            while status_code != 200:
+                file_response = requests.get
+
         for file in FileHandler.files_to_scan:
-            md5 = scan_request(file).json()['md5']
+            if os.path.getsize(file) * 0.000001 > 32:
+                pass
+            if os.path.getsize(file) * 0.000001 > 200:
+                return
+            md5 = scan_small_file(file).json()['md5']
             cls.scan_ids.append(md5)
 
     @classmethod
