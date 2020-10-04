@@ -5,14 +5,10 @@ from src.FileHandler import FileHandler
 from src.RequestHandler import RequestHandler
 
 
-class TestMultipleFiles(unittest.TestCase):
+class TestVirusScanner(unittest.TestCase):
     def setUp(self):
-        with open('/home/jwadolowski/Desktop/virus-scanner/API-key.txt', 'r') as file:
-            ApiHandler.set_API_key(file.read())
-        FileHandler.files_to_scan = ['/home/jwadolowski/Desktop/virus-scanner/tests/test_file_archive.zip',
-                                     '/home/jwadolowski/Desktop/virus-scanner/tests/test_file_executable.exe',
-                                     '/home/jwadolowski/Desktop/virus-scanner/tests/test_file_text.txt'
-                                     ]
+
+        pass
 
     def test_scan_files(self):
         RequestHandler.scan_files()
