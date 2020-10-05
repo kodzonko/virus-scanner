@@ -34,7 +34,7 @@ class RequestHandler:
 
         small_file_url = 'https://www.virustotal.com/vtapi/v2/file/scan'
         big_file_url = 'https://www.virustotal.com/api/v3/files/upload_url'
-        params = {'x-apikey': ApiHandler.get_API_key()}
+        params = {'x-apikey': ApiHandler.get_api_key()}
 
         def scan_small_file(file: str):
             file_request = {'file': (file, open(file), 'rb')}
@@ -68,7 +68,7 @@ class RequestHandler:
     @classmethod
     def get_reports(cls):
         url = 'https://www.virustotal.com/vtapi/v2/file/report'
-        params = {'apikey': ApiHandler.get_API_key()}
+        params = {'apikey': ApiHandler.get_api_key()}
 
         def report_request(scan_id: str):
             params.update({'resource': scan_id})

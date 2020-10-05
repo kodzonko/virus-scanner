@@ -5,25 +5,14 @@ class FileHandler:
     files_to_scan = []
 
     @classmethod
-    def select_files_to_scan(cls):
+    def add_files_to_scan(cls, *args) -> None:
         """
         Opens minimal GUI to navigate and select file(s) of choice
         :return:
         None
         """
-        selected_files = filedialog.askopenfilenames(initialdir="C:", title='Select file(s) to scan')
-        for file in selected_files:
+        for file in args:
             cls.files_to_scan.append(file)
-
-    @classmethod
-    def select_API_file(cls) -> str:
-        """
-        Opens minimal GUI to navigate and select file(s) of choice
-        :return:
-        None
-        """
-        selected_file = filedialog.askopenfilename(initialdir="C:", title="Select a file containing your API key")
-        return selected_file
 
     @classmethod
     def save_file(cls, content_to_save) -> None:

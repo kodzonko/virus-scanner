@@ -2,7 +2,7 @@ from tkinter import Tk, filedialog, Button, Label
 from src.ApiHandler import ApiHandler
 
 
-def center_window(width=400, height=300):
+def center_window(width=400, height=300) -> None:
     screen_width = root.winfo_screenwidth()
     screen_height = root.winfo_screenheight()
 
@@ -12,22 +12,22 @@ def center_window(width=400, height=300):
     root.geometry(f'{width}x{height}+{x}+{y}')
 
 
-def select_files(title: str = "Select file(s)"):
+def select_files(title: str = "Select file(s)") -> list:
     """
     Opens minimal GUI to navigate and select file(s) of choice
     :return:
     None
     """
-    return filedialog.askopenfilenames(parent=root, initialdir="C:", title=title)
+    return filedialog.askopenfilenames(initialdir="C:", title=title)
 
 
-def select_api_file():
+def select_api_file() -> str:
     """
     Opens minimal GUI to navigate and select file(s) of choice
     :return:
     None
     """
-    return filedialog.askopenfilename(parent=root, initialdir="C:", title="Select a file containing your API key")
+    return filedialog.askopenfilename(initialdir="C:", title="Select a file containing your API key")
 
 
 def save_file(content_to_save: str):
