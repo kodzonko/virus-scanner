@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # !/usr/bin/python3
 
 from src.model.ApiHandler import ApiHandler
@@ -49,3 +50,5 @@ ReportMaker.print_to_console()
 #             cls.get_api_from_user(api)
 #         else:
 #             file.write(api)
+=======
+>>>>>>> b6e210b75420b7ea6ee6f217e7e16bf2ae35606a

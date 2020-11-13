@@ -1,7 +1,7 @@
 import unittest
 
 
-class MyTestCase(unittest.TestCase):
+class TestReportMaker(unittest.TestCase):
     def setUp(self):
         pass
 

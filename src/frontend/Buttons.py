@@ -3,7 +3,7 @@ from tkinter import filedialog
 from src.frontend.MainWindow import root
 
 
-def select_paths():
+def select_paths() -> filedialog:
     """
     Opens minimal GUI to navigate and select file(s) of choice
     :return:
@@ -13,7 +13,7 @@ def select_paths():
     return filedialog.askopenfilenames(parent=root, initialdir="C:", title='Select file(s) to scan')
 
 
-def center_window(width=400, height=300):
+def center_window(width=400, height=300) -> None:
     screen_width = root.winfo_screenwidth()
     screen_height = root.winfo_screenheight()
 
@@ -23,7 +23,7 @@ def center_window(width=400, height=300):
     root.geometry(f'{width}x{height}+{x}+{y}')
 
 
-def select_files(title: str = "Select file(s)"):
+def select_files(title: str = "Select file(s)") -> filedialog:
     """
     Opens minimal GUI to navigate and select file(s) of choice
     :return:
@@ -32,7 +32,7 @@ def select_files(title: str = "Select file(s)"):
     return filedialog.askopenfilenames(parent=root, initialdir="C:", title=title)
 
 
-def select_api_file():
+def select_api_file() -> filedialog:
     """
     Opens minimal GUI to navigate and select file(s) of choice
     :return:
@@ -41,7 +41,7 @@ def select_api_file():
     return filedialog.askopenfilename(parent=root, initialdir="C:", title="Select a file containing your API key")
 
 
-def save_file(content_to_save: str):
+def save_file(content_to_save: str) -> bool:
     """
     Opens minimal GUI to navigate to a directory of choice to save a file with your API key or scan report.
 
@@ -58,16 +58,17 @@ def save_file(content_to_save: str):
                 file.write(content_to_save)
             except IOError:
                 print('Unable to create file in that location. Try again.')
-                save_file(content_to_save)
+                return False
             else:
                 file.write(content_to_save)
+                return True
 
 
-def show_results():
+def show_results() -> None:
     # TODO implement this method
     pass
 
 
-def save_results():
+def save_results() -> bool:
     # TODO implement this method
     pass

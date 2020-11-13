@@ -1,9 +1,10 @@
-from tkinter import Tk, Button, Label
+from tkinter import Tk, filedialog, Button, Label
+
+from src.frontend import Buttons
 from src.model.ApiHandler import ApiHandler
-from src.frontend.Buttons import center_window, select_files, select_api_file, save_file, show_results, save_results
 
 root = Tk()
-center_window(500, 400)
+Buttons.center_window(500, 400)
 root.title("Multiengine Virus Scanner")
 
 is_api = Label(root, text="Missing API key!")
