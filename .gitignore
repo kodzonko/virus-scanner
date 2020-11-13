@@ -132,6 +132,6 @@ dmypy.json
 API-key.txt
 /.directory
 /.idea/
-/tests/test_file_archive.zip
-/tests/test_file_executable.exe
-/tests/test_file_text.txt
+/tests/Files-to-scan/test_file_archive.zip
+/tests/Files-to-scan/test_file_executable.exe
+/tests/Files-to-scan/test_file_text.txt

@@ -1,68 +1,6 @@
-from tkinter import Tk, filedialog, Button, Label
-from src.ApiHandler import ApiHandler
-
-
-def center_window(width=400, height=300):
-    screen_width = root.winfo_screenwidth()
-    screen_height = root.winfo_screenheight()
-
-    # calculate position x and y coordinates
-    x = int((screen_width / 2) - (width / 2))
-    y = int((screen_height / 2) - (height / 2))
-    root.geometry(f'{width}x{height}+{x}+{y}')
-
-
-def select_files(title: str = "Select file(s)"):
-    """
-    Opens minimal GUI to navigate and select file(s) of choice
-    :return:
-    None
-    """
-    return filedialog.askopenfilenames(parent=root, initialdir="C:", title=title)
-
-
-def select_api_file():
-    """
-    Opens minimal GUI to navigate and select file(s) of choice
-    :return:
-    None
-    """
-    return filedialog.askopenfilename(parent=root, initialdir="C:", title="Select a file containing your API key")
-
-
-def save_file(content_to_save: str):
-    """
-    Opens minimal GUI to navigate to a directory of choice to save a file with your API key or scan report.
-
-    :param content_to_save: API-key or scan reports to  save in file
-    :type content_to_save: str
-
-    :return:
-    None
-    """
-    file = filedialog.asksaveasfilename(mode='w', defaultextension=".txt")
-    if file is not None:  # asksaveasfile returns `None` if dialog closed with "cancel".
-        with open(file, 'w') as file:
-            try:
-                file.write(content_to_save)
-            except IOError:
-                print('Unable to create file in that location. Try again.')
-                save_file(content_to_save)
-            else:
-                file.write(content_to_save)
-
-
-def show_results():
-    # TODO implement this method
-    pass
-
-
-def save_results():
-    # TODO implement this method
-    pass
-
-
-
+from tkinter import Tk, Button, Label
+from src.model.ApiHandler import ApiHandler
+from src.frontend.Buttons import center_window, select_files, select_api_file, save_file, show_results, save_results
 
 root = Tk()
 center_window(500, 400)
@@ -70,7 +8,7 @@ root.title("Multiengine Virus Scanner")
 
 is_api = Label(root, text="Missing API key!")
 is_api.grid()
-if ApiHandler.get_API_key() is not None:
+if ApiHandler.get_api_key() is not None:
     is_api.configure(text="Found API key, we are good to go!")
 
 button_api_file = Button(root, text="Select API file", fg="red", command=select_api_file)

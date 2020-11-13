@@ -18,7 +18,7 @@ class FileHandler:
             cls.files_to_scan.append(file)
 
     @classmethod
-    def select_API_file(cls):
+    def select_api_file(cls):
         """
         Opens minimal GUI to navigate and select file(s) of choice
         :return:

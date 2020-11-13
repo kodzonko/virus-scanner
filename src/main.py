@@ -1,13 +1,11 @@
 # !/usr/bin/python3
 
-from src.ApiHandler import ApiHandler
-from src.FileHandler import FileHandler
-from src.RequestHandler import RequestHandler
-from src.ReportMaker import ReportMaker
+from src.model.ApiHandler import ApiHandler
+from src.model.FileHandler import FileHandler
+from src.model.RequestHandler import RequestHandler
+from src.model.ReportMaker import ReportMaker
 
-
-
-ApiHandler.get_API_from_file()
+ApiHandler.get_api_from_file()
 FileHandler.select_files_to_scan()
 RequestHandler.scan_files()
 RequestHandler.get_reports()
@@ -15,7 +13,6 @@ RequestHandler.get_reports()
 # print(RequestHandler.reports)
 ReportMaker.print_to_console()
 # ReportMaker.write_to_file()
-
 
 
 # import tkinter as tk
@@ -49,6 +46,6 @@ ReportMaker.print_to_console()
 #             file.write(api)
 #         except IOError:
 #             print('Unable to create file in that location. Try again.')
-#             cls.get_API_from_user(api)
+#             cls.get_api_from_user(api)
 #         else:
 #             file.write(api)
