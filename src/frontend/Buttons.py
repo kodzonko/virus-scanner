@@ -10,7 +10,9 @@ def select_paths() -> filedialog:
     None
     """
     root.withdraw()
-    return filedialog.askopenfilenames(parent=root, initialdir="C:", title='Select file(s) to scan')
+    return filedialog.askopenfilenames(parent=root,
+                                       initialdir="C:",
+                                       title='Select file(s) to scan')
 
 
 def center_window(width=400, height=300) -> None:
@@ -29,7 +31,9 @@ def select_files(title: str = "Select file(s)") -> filedialog:
     :return:
     None
     """
-    return filedialog.askopenfilenames(parent=root, initialdir="C:", title=title)
+    return filedialog.askopenfilenames(parent=root,
+                                       initialdir="C:",
+                                       title=title)
 
 
 def select_api_file() -> filedialog:
@@ -38,7 +42,10 @@ def select_api_file() -> filedialog:
     :return:
     None
     """
-    return filedialog.askopenfilename(parent=root, initialdir="C:", title="Select a file containing your API key")
+    return filedialog.askopenfilename(
+        parent=root,
+        initialdir="C:",
+        title="Select a file containing your API key")
 
 
 def save_file(content_to_save: str) -> bool:

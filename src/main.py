@@ -1,12 +1,11 @@
-<<<<<<< HEAD
 # !/usr/bin/python3
 
-from src.model.ApiHandler import ApiHandler
+from src.model.ApiKeyHandler import ApiHandler
 from src.model.FileHandler import FileHandler
-from src.model.RequestHandler import RequestHandler
 from src.model.ReportMaker import ReportMaker
+from src.model.RequestHandler import RequestHandler
 
-ApiHandler.get_api_from_file()
+ApiHandler.get_api_key_from_file()
 FileHandler.select_files_to_scan()
 RequestHandler.scan_files()
 RequestHandler.get_reports()
@@ -14,7 +13,6 @@ RequestHandler.get_reports()
 # print(RequestHandler.reports)
 ReportMaker.print_to_console()
 # ReportMaker.write_to_file()
-
 
 # import tkinter as tk
 #
@@ -50,5 +48,3 @@ ReportMaker.print_to_console()
 #             cls.get_api_from_user(api)
 #         else:
 #             file.write(api)
-=======
->>>>>>> b6e210b75420b7ea6ee6f217e7e16bf2ae35606a

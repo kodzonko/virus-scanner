@@ -1,8 +1,9 @@
 import os
 import time
+
 import requests
 
-from src.model.ApiHandler import ApiHandler
+from src.model.ApiKeyHandler import ApiHandler
 from src.model.FileHandler import FileHandler
 
 
@@ -15,6 +16,7 @@ def api_timeout(func, wait_code: int):
                 print("sleeping 30")
             else:
                 return func(*args, **kwargs)
+
     return inner
 
 
@@ -40,7 +42,9 @@ class RequestHandler:
             file_request = {'file': (file, open(file), 'rb')}
             status_code = -1
             while status_code != 200:
-                file_response = requests.post(small_file_url, files=file_request, headers=params)
+                file_response = requests.post(small_file_url,
+                                              files=file_request,
+                                              headers=params)
                 status_code = file_response.status_code
                 if file_response.status_code == 200:
                     return file_response
@@ -51,7 +55,8 @@ class RequestHandler:
                     print(f"other error: {file_response.status_code}")
 
         def scan_big_file(file: str):
-            url_request = requests.get(big_file_url, params=params).json()['upload_url']
+            url_request = requests.get(big_file_url,
+                                       params=params).json()['upload_url']
             file_request = {'file': (file, open(file), 'rb')}
             status_code = -1
             while status_code != 200:
