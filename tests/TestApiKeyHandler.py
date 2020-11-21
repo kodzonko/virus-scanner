@@ -6,9 +6,6 @@ from src.model.ApiKeyHandler import ApiKeyHandler
 
 
 class TestApiKeyHandler(unittest.TestCase):
-    def setUp(self) -> None:
-        pass
-
     def test_add_api_from_missing_file(self) -> None:
         self.assertEqual(
             ApiKeyHandler.get_api_key_from_file(rf"/missing_file"), False)

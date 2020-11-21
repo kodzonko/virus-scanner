@@ -1,3 +1,4 @@
+import os
 from tkinter import filedialog
 
 
@@ -5,17 +6,18 @@ class FileHandler:
     files_to_scan = []
 
     @classmethod
-    def add_files_to_scan(cls, *args) -> None:
+    def add_files_to_scan(cls, paths: list) -> None:
         """
         Opens minimal GUI to navigate and select file(s) of choice
         :return:
         None
         """
-        for file in args:
-            cls.files_to_scan.append(file)
+        for path in paths:
+            if os.path.isfile(path):
+                cls.files_to_scan.append(path)
 
     @classmethod
-    def select_api_file(cls):
+    def select_api_file(cls) -> str:
         """
         Opens minimal GUI to navigate and select file(s) of choice
         :return:
