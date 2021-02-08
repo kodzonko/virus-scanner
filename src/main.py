@@ -1,10 +1,10 @@
 <<<<<<< HEAD
 # !/usr/bin/python3
 
-from src.model.ApiHandler import ApiHandler
-from src.model.FileHandler import FileHandler
-from src.model.RequestHandler import RequestHandler
-from src.model.ReportMaker import ReportMaker
+from src.logic.ApiHandler import ApiHandler
+from src.logic.FileHandler import FileHandler
+from src.logic.RequestHandler import RequestHandler
+from src.logic.ReportMaker import ReportMaker
 
 ApiHandler.get_api_from_file()
 FileHandler.select_files_to_scan()

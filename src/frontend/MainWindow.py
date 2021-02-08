@@ -1,7 +1,7 @@
 from tkinter import Tk, filedialog, Button, Label
 
 from src.frontend import Buttons
-from src.model.ApiHandler import ApiHandler
+from src.logic.ApiHandler import ApiHandler
 
 root = Tk()
 Buttons.center_window(500, 400)

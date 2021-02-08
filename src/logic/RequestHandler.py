@@ -2,8 +2,8 @@ import os
 import time
 import requests
 
-from src.model.ApiHandler import ApiHandler
-from src.model.FileHandler import FileHandler
+from src.logic.ApiHandler import ApiHandler
+from src.logic.FileHandler import FileHandler
 
 
 def api_timeout(func, wait_code: int):

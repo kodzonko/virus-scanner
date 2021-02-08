@@ -1,5 +1,5 @@
-from src.model.RequestHandler import RequestHandler
-from src.model.FileHandler import FileHandler
+from src.logic.RequestHandler import RequestHandler
+from src.logic.FileHandler import FileHandler
 
 
 class ReportMaker:

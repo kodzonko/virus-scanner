@@ -1,4 +1,4 @@
-from src.model.FileHandler import FileHandler
+from src.logic.FileHandler import FileHandler
 
 
 class ApiHandler:

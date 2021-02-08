@@ -1,7 +1,7 @@
 import unittest
 
-from src.model.ApiHandler import ApiHandler
-from src.model.FileHandler import FileHandler
+from src.logic.ApiHandler import ApiHandler
+from src.logic.FileHandler import FileHandler
 
 
 class TestFileHandler(unittest.TestCase):
@@ -25,3 +25,4 @@ class TestFileHandler(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+    
