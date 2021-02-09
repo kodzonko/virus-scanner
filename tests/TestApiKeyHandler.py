@@ -2,7 +2,7 @@ import os
 import unittest
 
 from src.exceptions.ApiKeyExceptions import ApiKeyFileExists
-from src.model.ApiKeyHandler import ApiKeyHandler
+from src.logic.ApiKeyHandler import ApiKeyHandler
 
 
 class TestApiKeyHandler(unittest.TestCase):
