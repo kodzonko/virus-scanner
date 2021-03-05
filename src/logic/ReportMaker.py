@@ -14,4 +14,4 @@ class ReportMaker:
 
     @classmethod
     def write_to_file(cls):
-        FileHandler.save_file(RequestHandler.reports)
+        FileHandler.save_to_file(RequestHandler.reports)

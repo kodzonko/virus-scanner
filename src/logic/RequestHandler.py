@@ -2,20 +2,18 @@ import os
 import time
 import requests
 
-from src.logic.ApiHandler import ApiHandler
-from src.logic.FileHandler import FileHandler
 
-
-def api_timeout(func, wait_code: int):
+def api_timeout(function, wait_code: int):
     def inner(*args, **kwargs):
-        while True:
-            func()
-            if func.status_code == wait_code:
+        processed_successfully = False
+        while not processed_successfully:
+            result = function()
+            if result.status_code == wait_code:
                 time.sleep(30)
                 print("sleeping 30")
             else:
-                return func(*args, **kwargs)
-
+                return function(*args, **kwargs)
+    # TODO
     return inner
 
 
