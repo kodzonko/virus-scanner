@@ -2,7 +2,7 @@ import os
 from tkinter import Tk, Button, Label, filedialog, simpledialog, DISABLED, NORMAL
 from typing import Optional, List, Union
 
-from data.ApiKey import ApiKey
+from src.data.ApiKey import ApiKey
 
 
 def select_files() -> Optional[List[str]]:
