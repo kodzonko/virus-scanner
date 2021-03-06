@@ -7,9 +7,9 @@ from data.ApiKey import ApiKey
 
 def select_files() -> Optional[List[str]]:
     """
-    Opens a dialogue to navigate and select file(s) to scan
-    :return:
-    A list of file paths or None if the dialogue has been cancelled.
+    Opens a dialogue to navigate and select file(s) to scan.
+
+    :return: A list of file paths or None if the dialogue has been cancelled.
     """
     return filedialog.askopenfilenames(title='Select file(s) to scan',
                                        parent=root)
@@ -18,10 +18,10 @@ def select_files() -> Optional[List[str]]:
 def save_to_file(content: str) -> None:
     """
     Opens a dialogue to navigate to a directory of choice to save a file with scan report.
+
     :param content: content to save in a file
     :type content: str
-    :return:
-    None
+    :return: None
     """
     file = filedialog.asksaveasfilename(mode='w', defaultextension=".txt")
     if file is not None:  # asksaveasfile returns None if dialog closed with "cancel".

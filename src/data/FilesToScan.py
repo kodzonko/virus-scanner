@@ -10,6 +10,7 @@ class FilesToScan:
     def add_files_to_scan_queue(cls, paths: List[Path, str]) -> None:
         """
         Opens a dialogue to select file(s) to scan
+
         :return:
         None
         """

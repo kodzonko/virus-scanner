@@ -17,7 +17,7 @@ class TestRequestsHandler(unittest.TestCase):
         ]
 
     def test_scan_single_file(self) -> None:
-        RequestHandler.scan_files()
+        RequestHandler.request_scans()
         self.assertEqual(len(RequestHandler.scan_ids),
                          len(FileHandler.files_to_scan))
         self.assertEqual()

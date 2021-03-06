@@ -1,100 +1,99 @@
 import os
 import time
+from pathlib import Path
+from typing import List, Any, Union
+
 import requests
 
+from ..data.ApiKey import ApiKey
 
-def api_timeout(function, wait_code: int):
-    def inner(*args, **kwargs):
+
+def api_timeout(function, wait_code: int = 429, sleep_seconds: int = 15) -> Any:
+    """
+    Decorator function for repeating function in loop until response code is not wait code.
+
+    :param function: 
+    :param wait_code: This is  a TooManyRequestsError code returned by the provider.
+    :param sleep_seconds: How long to wait between iterations. Calculate it based on the documentation.
+    """
+
+    def inner():
         processed_successfully = False
         while not processed_successfully:
             result = function()
             if result.status_code == wait_code:
-                time.sleep(30)
-                print("sleeping 30")
+                time.sleep(sleep_seconds)
             else:
-                return function(*args, **kwargs)
-    # TODO
+                return function()
+
     return inner
 
 
-class RequestHandler:
+def request_scans(scan_queue: List[Path, str]) -> List[str]:
+    """
+    Function requesting scans for files in a scan queue list.
+
+    :param scan_queue: A list of file paths to scan
+    :type scan_queue: List[Path, str]
+    :return: dictionary, where keys are file paths and values are scan ids
+    """
+    # As far as I know you cannot post request with multiple files. It requires dictionary with key value = 'file'
+    # (which has to be unique obviously) - so it limits dictionary size to 1.
+
+    small_file_url = 'https://www.virustotal.com/vtapi/v2/file/scan'
+    big_file_url = 'https://www.virustotal.com/api/v3/files/upload_url'
+    api_key = {'apikey': ApiKey.get_api_key()}
+
     scan_ids = []
+
+    def get_upload_url() -> str:
+        upload_url_json = api_timeout(requests.get(
+            url=big_file_url,
+            params=api_key
+        )).json()
+        return upload_url_json['upload_url']
+
+    def get_scan_id(url: str, file_to_scan: Union[Path, str]) -> str:
+        response = api_timeout(
+            requests.post(
+                url=url,
+                files={'file': (file_to_scan, open(file_to_scan, 'rb'))},
+                params=api_key)
+        )
+        return response.json()['md5']
+
+    bytes_to_mb = 1_000_000
+
+    for file in scan_queue:
+        if os.path.getsize(file) / bytes_to_mb > 32:
+            upload_url = get_upload_url()
+        elif os.path.getsize(file) / bytes_to_mb > 200:
+            # TODO test if accepted else raise exception
+            pass
+        else:
+            upload_url = small_file_url
+        scan_ids.append(get_scan_id(url=upload_url, file_to_scan=file))
+
+    return scan_ids
+
+
+def get_reports(scan_ids: list) -> List[dict]:
+    url = 'https://www.virustotal.com/vtapi/v2/file/report'
+    params = {'apikey': ApiKey.get_api_key()}
+
     reports = []
 
-    @classmethod
-    def scan_files(cls):
-        """
-        Function requesting scans and reports for each file in FileHandler.files_to_scan (list)
-        :return:
-        json file with scan ID of each file chosen to scan
-        """
-        # As far as I know you cannot post request with multiple files. It requires dictionary with key value = 'file'
-        # (which has to be unique obviously) - so it limits dictionary size to 1.
+    def get_report(scan_id: str) -> dict:
+        params['resource'] = scan_id
+        response = api_timeout(requests.get(url=url, params=params))
+        return response.json()
 
-        small_file_url = 'https://www.virustotal.com/vtapi/v2/file/scan'
-        big_file_url = 'https://www.virustotal.com/api/v3/files/upload_url'
-        params = {'x-apikey': ApiHandler.get_api_key()}
+    for scan_id in scan_ids:
+        reports.append(get_report(scan_id))
 
-        def scan_small_file(file: str):
-            file_request = {'file': (file, open(file), 'rb')}
-            status_code = -1
-            while status_code != 200:
-                file_response = requests.post(small_file_url,
-                                              files=file_request,
-                                              headers=params)
-                status_code = file_response.status_code
-                if file_response.status_code == 200:
-                    return file_response
-                elif file_response.status_code == 204:
-                    print("204 waiting 30")
-                    time.sleep(30)
-                else:
-                    print(f"other error: {file_response.status_code}")
+    return reports
 
-        def scan_big_file(file: str):
-            url_request = requests.get(big_file_url,
-                                       params=params).json()['upload_url']
-            file_request = {'file': (file, open(file), 'rb')}
-            status_code = -1
-            while status_code != 200:
-                file_response = requests.get
 
-        for file in FileHandler.files_to_scan:
-            if os.path.getsize(file) * 0.000001 > 32:
-                pass
-            if os.path.getsize(file) * 0.000001 > 200:
-                return
-            md5 = scan_small_file(file).json()['md5']
-            cls.scan_ids.append(md5)
-
-    @classmethod
-    def get_reports(cls):
-        url = 'https://www.virustotal.com/vtapi/v2/file/report'
-        params = {'apikey': ApiHandler.get_api_key()}
-
-        def report_request(scan_id: str):
-            params.update({'resource': scan_id})
-            status_code = -1
-            while status_code != 200:
-                report_response = requests.get(url, params=params)
-                status_code = report_response.status_code
-                print(f'status_code {status_code}')
-                if report_response.status_code == 200:
-                    print("success")
-                    return report_response
-                elif report_response.status_code == 204:
-                    print("204 waiting 30")
-                    time.sleep(30)
-                else:
-                    print(f"other error: {report_response.status_code}")
-
-        for scan_id in cls.scan_ids:
-            report_dict = report_request(scan_id).json()
-            cls.reports.append(report_dict)
-
-    @classmethod
-    def project_time(cls):
-        if len(FileHandler.files_to_scan) <= 2:
-            return 0
-        else:
-            return len(FileHandler.files_to_scan) * 30
+def project_time(cls):
+    # TODO maybe
+    pass
