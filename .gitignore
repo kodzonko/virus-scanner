@@ -128,10 +128,15 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-# API key file
+# Filesystem debris
+.directory/
+
+# IDE settings
+.idea/
+.vscode/
+
+# Resources
 API-key.txt
-/.directory
-/.idea/
-/tests/Files-to-scan/test_file_archive.zip
-/tests/Files-to-scan/test_file_executable.exe
-/tests/Files-to-scan/test_file_text.txt
+/tests/Files-to-scan/*
+/Resources/
+

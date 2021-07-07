@@ -1,9 +1,8 @@
 import os
 import time
+import requests
 from pathlib import Path
 from typing import List, Any, Union
-
-import requests
 
 from ..data.ApiKey import ApiKey
 
@@ -37,7 +36,7 @@ def request_scans(scan_queue: List[Path, str]) -> List[str]:
     :type scan_queue: List[Path, str]
     :return: dictionary, where keys are file paths and values are scan ids
     """
-    # As far as I know you cannot post request with multiple files. It requires dictionary with key value = 'file'
+    # As far as I know you cannot post request with multiple files. The API requires a dictionary with key value = 'file'
     # (which has to be unique obviously) - so it limits dictionary size to 1.
 
     small_file_url = 'https://www.virustotal.com/vtapi/v2/file/scan'
@@ -62,12 +61,12 @@ def request_scans(scan_queue: List[Path, str]) -> List[str]:
         )
         return response.json()['md5']
 
-    bytes_to_mb = 1_000_000
+    bytes_in_mb = 1_000_000
 
     for file in scan_queue:
-        if os.path.getsize(file) / bytes_to_mb > 32:
+        if (os.path.getsize(file) / bytes_in_mb) > 32:
             upload_url = get_upload_url()
-        elif os.path.getsize(file) / bytes_to_mb > 200:
+        elif (os.path.getsize(file) / bytes_in_mb) > 200:
             # TODO test if accepted else raise exception
             pass
         else:
@@ -80,7 +79,6 @@ def request_scans(scan_queue: List[Path, str]) -> List[str]:
 def get_reports(scan_ids: list) -> List[dict]:
     url = 'https://www.virustotal.com/vtapi/v2/file/report'
     params = {'apikey': ApiKey.get_api_key()}
-
     reports = []
 
     def get_report(scan_id: str) -> dict:
@@ -94,6 +92,10 @@ def get_reports(scan_ids: list) -> List[dict]:
     return reports
 
 
-def project_time(cls):
-    # TODO maybe
+def estimate_time():
+    """
+    Estimates to to finish processing the queue based on number of files and knowledge about max daily resource quota
+    :return: time in minutes(?)
+    """
+    # TODO maybe later
     pass

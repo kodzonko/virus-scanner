@@ -1,17 +1,19 @@
+from pathlib import Path
 from typing import Union, Optional
 
 
 class ApiKey:
-    __api_key = None
+    def __init__(self, api_key_file: Union[str, Path]):
+        with open(api_key_file, 'rt') as file:
+            self.__api_key = file.readline()
 
-    @classmethod
-    def get_api_key(cls) -> Optional[str]:
-        return cls.__api_key
+    @property
+    def api_key(self) -> Optional[str]:
+        return self.__api_key
 
-    @classmethod
-    def set_api_key(cls, key: str) -> None:
-        cls.__api_key = key
+    @property.setter
+    def api_key(self, key: str) -> None:
+        self.__api_key = key
 
-    @classmethod
-    def is_api_key(cls) -> bool:
-        return cls.__api_key is not None
+    def is_api_key(self) -> bool:
+        return self.api_key is not None
