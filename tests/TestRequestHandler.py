@@ -7,7 +7,7 @@ from src.logic.RequestHandler import RequestHandler
 
 class TestRequestsHandler(unittest.TestCase):
     def setUp(self) -> None:
-        with open('/home/jwadolowski/Desktop/virus-scanner/API-key.txt',
+        with open('/home/jwadolowski/Desktop/virus-scanner/API-api_key.txt',
                   'r') as file:
             ApiHandler.set_api_key(file.read())
         FileHandler.files_to_scan = [
@@ -33,8 +33,8 @@ class TestRequestsHandler(unittest.TestCase):
 
     # def test_reports_request_codes(self):
     #     for report in RequestHandler.reports:
-    #         for key, value in report:
-    #             if key ==
+    #         for api_key, value in report:
+    #             if api_key ==
     #             request_codes = [RequestHandler.reports]
     #     self.assertEqual(True, False)
 

@@ -8,12 +8,6 @@ class FilesToScan:
 
     @classmethod
     def add_files_to_scan_queue(cls, paths: List[Path, str]) -> None:
-        """
-        Opens a dialogue to select file(s) to scan
-
-        :return:
-        None
-        """
         for path in paths:
             if os.path.isfile(path) and path not in cls.files_to_scan:
                 cls.files_to_scan.append(path)

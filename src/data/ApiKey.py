@@ -8,12 +8,9 @@ class ApiKey:
             self.__api_key = file.readline()
 
     @property
-    def api_key(self) -> Optional[str]:
+    def api_key(self) -> str:
         return self.__api_key
 
-    @property.setter
+    @api_key.setter
     def api_key(self, key: str) -> None:
         self.__api_key = key
-
-    def is_api_key(self) -> bool:
-        return self.api_key is not None

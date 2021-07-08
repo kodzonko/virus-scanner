@@ -35,10 +35,10 @@ def save_to_file(content: str) -> None:
 def ask_user_for_api_key() -> None:
     api_key = simpledialog.askstring("Input", "What is your first name?",
                                      parent=root)
-    if os.path.isfile('./API-key.txt'):
-        raise RuntimeError("API-key.txt already exists")
+    if os.path.isfile('./API-api_key.txt'):
+        raise RuntimeError("API-api_key.txt already exists")
     else:
-        with open('./API-key.txt', 'w') as file:
+        with open('./API-api_key.txt', 'w') as file:
             file.write(api_key)
 
 
@@ -83,14 +83,14 @@ root = Tk()
 center_window(500, 400)
 root.title("Multi engine Virus Scanner")
 
-# TODO this button only visible if API key is missing
+# TODO this button only visible if API api_key is missing
 label_api_key = Label(root,
-                      text='Missing API key!',
+                      text='Missing API api_key!',
                       fg='red'
                       )
 
 button_get_api_from_user = Button(root,
-                                  text="Select API key file",
+                                  text="Select API api_key file",
                                   command=ask_user_for_api_key,
                                   **button_view_scheme
                                   )

@@ -11,7 +11,7 @@ class TestApiKeyHandler(unittest.TestCase):
         self.assertIsNone(ApiKey.get_api_key())
 
     def test_add_api_from_existing_file(self) -> None:
-        api_key_file = os.path.realpath("../API-key.txt")
+        api_key_file = os.path.realpath("../API-api_key.txt")
         self.assertEqual(
             ApiKey.get_api_key_from_file(rf"{api_key_file}"), True)
         self.assertIsNotNone(ApiKey.get_api_key())
