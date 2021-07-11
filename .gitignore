@@ -137,6 +137,5 @@ dmypy.json
 
 # Resources
 API-key.txt
-/tests/Files-to-scan/*
-/Resources/
+tests/Resources/
 

@@ -2,12 +2,10 @@ import os
 import time
 import requests
 from pathlib import Path
-from typing import List, Any, Union
-
-from ..data.ApiKey import ApiKey
+from typing import List, Any, Union, Callable
 
 
-def api_timeout(function, wait_code: int = 429, sleep_seconds: int = 15) -> Any:
+def api_timeout(function: Callable, wait_code: int = 429, sleep_seconds: int = 15, **func_parameters) -> Any:
     """
     Decorator function for repeating function in loop until response code is not wait code.
 
@@ -19,7 +17,7 @@ def api_timeout(function, wait_code: int = 429, sleep_seconds: int = 15) -> Any:
     def inner():
         processed_successfully = False
         while not processed_successfully:
-            result = function()
+            result = function(**func_parameters)
             if result.status_code == wait_code:
                 time.sleep(sleep_seconds)
             else:
@@ -48,18 +46,19 @@ def request_scans(scan_queue: List[Path, str], api_key: str) -> List[str]:
     scan_ids = []
 
     def get_upload_url() -> str:
-        upload_url_json = api_timeout(requests.get(
+        upload_url_json = api_timeout(
+            requests.get,
             url=big_file_url,
             params=params
-        )).json()
+        ).json()
         return upload_url_json['upload_url']
 
     def get_scan_id(url: str, file_to_scan: Union[Path, str]) -> str:
         response = api_timeout(
-            requests.post(
-                url=url,
-                files={'file': (file_to_scan, open(file_to_scan, 'rb'))},
-                params=params)
+            requests.post,
+            url=url,
+            files={'file': (file_to_scan, open(file_to_scan, 'rb'))},
+            params=params
         )
         return response.json()['md5']
 
@@ -93,7 +92,10 @@ def get_reports(scan_ids: List[str], api_key: str) -> List[dict]:
 
     for scan_id in scan_ids:
         params['resource'] = scan_id
-        response = api_timeout(requests.get(url=url, params=params))
+        response = api_timeout(
+            requests.get,
+            url=url,
+            params=params)
         reports.append(response.json())
 
     return reports
