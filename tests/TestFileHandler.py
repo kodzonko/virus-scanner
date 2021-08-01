@@ -12,7 +12,7 @@ class TestFileHandler(unittest.TestCase):
     def test_add_multiple_files(self):
         self.assertEqual(3, len(FilesToScan.files_to_scan))
 
-    def test_cear_scan_queue(self):
+    def test_clear_scan_queue(self):
         FilesToScan.clear_queue()
         self.assertEqual(0, len(FilesToScan.files_to_scan))
 

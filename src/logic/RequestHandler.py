@@ -15,8 +15,7 @@ def api_timeout(function: Callable, wait_code: int = 429, sleep_seconds: int = 1
     """
 
     def inner():
-        processed_successfully = False
-        while not processed_successfully:
+        while True:
             result = function(**func_parameters)
             if result.status_code == wait_code:
                 time.sleep(sleep_seconds)
@@ -60,7 +59,7 @@ def request_scans(scan_queue: List[Path, str], api_key: str) -> List[str]:
             files={'file': (file_to_scan, open(file_to_scan, 'rb'))},
             params=params
         )
-        return response.json()['md5']
+        return response.json()['scan_id']
 
     for file in scan_queue:
         if (os.path.getsize(file) / bytes_in_mb) > 32:

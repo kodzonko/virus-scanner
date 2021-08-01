@@ -14,5 +14,4 @@ class FilesToScan:
 
     @classmethod
     def clear_queue(cls) -> None:
-        """Clears scan queue"""
         cls.files_to_scan.clear()
