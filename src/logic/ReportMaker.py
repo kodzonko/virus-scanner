@@ -13,7 +13,7 @@ def generate_report(json: dict) -> str:
     Converts a VirusTotal scan report into custom Virus Scanner report
     :param json: json report returned by VirusTotal
     :type json: dict
-    :return:
+    :return: A string representation of scan report for all antiviruses
     """
     df = pd.DataFrame(json['scans'])
     df = df.rename_axis('antivirus')
